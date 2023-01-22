@@ -1,13 +1,7 @@
-import React, { Children } from 'react'
 import styled from 'styled-components'
 
-export const Button = ({children}) => {
-  return (
-    <ButtonWrapper>{children}</ButtonWrapper>
-  )
-}
 
-const ButtonWrapper = styled.button`
+export const Button = styled.button`
 display: flex;
 justify-content: space-evenly;
 align-items: center;

@@ -1,8 +1,11 @@
 import React from 'react'
+import { TransactionsLayout } from '../components/TransactionLayout'
 
 export const TransactionScreen = () => {
     return (
-        <div>TransactionScreen</div>
+        <TransactionsLayout>
+            
+        </TransactionsLayout>
     )
 }
 

@@ -1,12 +1,5 @@
-import React from 'react'
 import styled from 'styled-components'
-export const HomeHeading = ({children}) => {
-  return (
-    <Heading>{children}</Heading>
-  )
-}
-
-const Heading = styled.h1`
+export const HomeHeading = styled.h1`
 font-size: 1.5rem;
 margin:18px 8px;
 font-family: 'Press Start 2P';
