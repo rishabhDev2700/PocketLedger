@@ -7,16 +7,33 @@ import { HomeLayout } from '../components/HomeLayout';
 import { auth, provider } from '../FirebaseConfig';
 import { signInWithPopup } from 'firebase/auth';
 import { AuthContext } from '../App';
+import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+import { doc, setDoc } from "firebase/firestore";
+import { db } from '../FirebaseConfig';
+
 export const HomeScreen = () => {
     const navigate = useNavigate();
-    const context = useContext(AuthContext);
+    const authContext = useContext(AuthContext);
+    const userContext = useContext(UserContext);
     const signInUser = async () => {
         const result = await signInWithPopup(auth, provider);
         if (result) {
-            localStorage.setItem('userStatus', !context.get);
-            context.set(!context.get);
-            console.log('after signin setting status' + context.get);
+            const user = result.user;
+            userContext.setUser(user);
+            try {
+                const document = doc(db, 'users', user.uid);
+                await setDoc(document, {
+                    displayName: user.displayName,
+                    email: user.email,
+                }, { merge: true });
+
+                console.log("Document written with ID: ",document.id);
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+            localStorage.setItem('userStatus', !authContext.get);
+            authContext.set(!authContext.get);
             navigate('/menu');
         }
     }

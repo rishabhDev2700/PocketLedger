@@ -7,12 +7,18 @@ import { UnAuthorised } from "./pages/UnAuthorised";
 import { Logout } from "./pages/Logout";
 import { useState, createContext } from "react";
 export const AuthContext = createContext({ get: false, set: () => { } });
+export const UserContext = createContext({user:{},setUser:()=>{}})
 function App() {
   const [userStatus, setUserStatus] = useState(false);
+  const [user, setUser] = useState(null);
   console.log('User status App:'+userStatus);
+  user===null?
+  console.log('Current User App:'+null):
+  console.log('Current User App:'+user.email);
   return (
     <AuthContext.Provider value={{ get: userStatus, set: setUserStatus }}>
-      <Router>
+      <UserContext.Provider value={{user:user,setUser:setUser}}>
+             <Router>
         <Link to={userStatus ? '/menu' : '/'}>
           <HomeHeading>PocketLedger</HomeHeading>
         </Link>
@@ -24,6 +30,7 @@ function App() {
           <Route path='*' element={<UnAuthorised />} />
         </Routes>
       </Router>
+      </UserContext.Provider>
     </AuthContext.Provider>
   );
 }
