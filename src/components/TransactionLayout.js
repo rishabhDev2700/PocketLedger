@@ -3,6 +3,6 @@ import styled from 'styled-components'
 export const TransactionsLayout = styled.div`
 display:flex;
 flex-direction:column;
-width:100%;
+align-items:center;
 padding:1rem;
 `;
