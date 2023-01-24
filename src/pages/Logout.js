@@ -1,14 +1,14 @@
-import { AuthContext } from '../App'
+import { AuthContext, UserContext } from '../App'
 import { auth } from '../FirebaseConfig'
 import { signOut } from 'firebase/auth'
 import { Navigate } from 'react-router-dom'
 import { useContext } from 'react';
 export const Logout = async () => {
-    const context = useContext(AuthContext);
-    console.log('status before logging out:' + context.get);
+    const authContext = useContext(AuthContext);
+    const userContext = useContext(UserContext);
     await signOut(auth);
+    userContext.setUser(null);
     localStorage.clear();
-    context.set(false);
-    console.log('status after logging out:' + context.get);
+    authContext.set(false);
     Navigate('/');
 }
