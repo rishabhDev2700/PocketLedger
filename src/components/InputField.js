@@ -27,11 +27,11 @@ export const InputButton = styled.button`
 border:2px solid white;
 width:3rem;
 height:2.2rem;
-color:${props => props.type ? "black" : "white"};
+color:${props => props.transactionType ? "black" : "white"};
 font-weight:bold;
 font-size:1.5rem;
 transition:all 0.5s ease-out;
-background-color:${props => props.type ? "#30fc03" : "#fc0307"};
+background-color:${props => props.transactionType ? "#30fc03" : "#fc0307"};
 `
 export const AddButton = styled.button`
 width:90%;
@@ -69,4 +69,12 @@ position:absolute;
 bottom:0;
 padding:0;
 margin-bottom:1rem;
+`
+export const ListWrapper = styled.div`
+width:100%;
+display:flex;
+height:65vh;
+flex-direction: column;
+justify-content:center;
+overflow:scroll;
 `
