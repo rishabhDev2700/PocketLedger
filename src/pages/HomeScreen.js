@@ -21,6 +21,7 @@ export const HomeScreen = () => {
         if (result) {
             const user = result.user;
             userContext.setUser(user);
+            authContext.set(!authContext.get);
             try {
                 const document = doc(db, 'users', user.uid);
                 await setDoc(document, {
@@ -33,7 +34,6 @@ export const HomeScreen = () => {
                 console.error("Error adding document: ", e);
             }
             localStorage.setItem('userStatus', !authContext.get);
-            authContext.set(!authContext.get);
             navigate('/menu');
         }
     }
