@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 export const HomeHeading = styled.h1`
 font-size: 1.5rem;
 margin:18px 8px;

@@ -66,11 +66,12 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 position:absolute;
+width:100%;
 bottom:0;
 padding:0;
 margin-bottom:1rem;
 `
-export const ListWrapper = styled.div`
+export const ListWrapper = styled.ul`
 width:100%;
 display:flex;
 height:65vh;

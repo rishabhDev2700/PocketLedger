@@ -5,4 +5,5 @@ display:flex;
 flex-direction:column;
 align-items:center;
 padding:1rem;
+width:95vw;
 `;
