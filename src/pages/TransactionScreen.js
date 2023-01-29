@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addDoc, collection, Timestamp, query, where, orderBy, getDocs } from "firebase/firestore";
+import { addDoc, collection, Timestamp, query, where, orderBy, getDocs, doc, deleteDoc } from "firebase/firestore";
+
 import { TransactionsLayout } from '../components/TransactionLayout';
 import { Transaction } from './../components/Transaction'
 import { InputField, InputButton, Select, AddButton, InputWrapper, Wrapper, ListWrapper } from '../components/InputField';
@@ -18,25 +19,32 @@ export const TransactionScreen = () => {
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const document = collection(db, 'transactions');
-    const q = query(document, where('user', '==', userContext.user.uid), orderBy("date", 'asc'));
-    const fetchDocs = async (q, setList) => {
-        const docList = [];
-        const result = await getDocs(q);
-        result.forEach((doc) => {
-            const date =  doc.data().date.toDate();
-            docList.push(<>
-                <Transaction key={doc.id.toString()}>{doc.data().amount}=={doc.data().for}=={date.toDateString()}</Transaction><hr />
-            </>)
-        });
-        setList(docList);
+
+    const removeTransaction = async (key_id) => {
+        const id = key_id+""; 
+        await deleteDoc(collection(db, 'transactions',id));
+        setItem({});
     }
     useEffect(() => {
         if (!authContext.get) {
             navigate('/');
         }
-        fetchDocs(q, setList);
-    }, [authContext.get, navigate, item]);
+        const document = collection(db, 'transactions');
+        const q = query(document, where('user', '==', userContext.user.uid), orderBy("date", 'asc'));
+        const fetchDocs = async (setList) => {
+            const docList = [];
+            const result = await getDocs(q);
+            result.forEach((doc) => {
+                const date = doc.data().date.toDate();
+                docList.push(<div>
+                    <Transaction key_id={doc.id} amount={doc.data().amount} for={doc.data().for} date={date.toDateString()} remove={removeTransaction} /><hr />
+                </div>)
+            });
+            setList(docList);
+        }
+        console.log("Transactions useEffect triggered");
+        fetchDocs(setList);
+    }, [authContext.get, userContext.user.uid, navigate, item]);
     const handleTransaction = async () => {
         const uid = userContext.user.uid;
         const values = { type: transactionType, amount: amount, for: amountFor, user: uid, date: Timestamp.now().toDate() };
@@ -60,11 +68,11 @@ export const TransactionScreen = () => {
                     <InputButton onClick={() => setTransactionType(!transactionType)} transactionType={transactionType}>{transactionType ? '+' : '-'}</InputButton>
                     <InputField onChange={(e) => setAmount(e.target.value)} type='number' min='0' placeholder='Transaction' />
                     <Select onChange={(e) => setAmountFor(e.target.value)}>
-                        <option value='food'>Food</option>
-                        <option value='earning'>Earnings</option>
-                        <option value='transport'>Transport</option>
-                        <option value='fun'>Fun/Party</option>
-                        <option value='misc'>Misc</option>
+                        <option value='Food'>Food</option>
+                        <option value='Earning'>Earnings</option>
+                        <option value='Transport'>Transport</option>
+                        <option value='Fun'>Fun/Party</option>
+                        <option value='Misc'>Misc</option>
                     </Select>
                 </InputWrapper>
                 <AddButton onClick={handleTransaction}>Insert</AddButton>
