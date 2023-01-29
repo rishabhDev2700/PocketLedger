@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addDoc, collection, Timestamp, query, where, orderBy, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, Timestamp, query, where, orderBy, getDocs, deleteDoc } from "firebase/firestore";
 
 import { TransactionsLayout } from '../components/TransactionLayout';
 import { Transaction } from './../components/Transaction'
