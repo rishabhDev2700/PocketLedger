@@ -79,7 +79,7 @@ width:90vw;
 display:flex;
 height:65vh;
 flex-direction: column;
-justify-content:space-evenly;
+justify-content:end;
 align-items:center;
 overflow:scroll;
 @media (min-width:768px){
