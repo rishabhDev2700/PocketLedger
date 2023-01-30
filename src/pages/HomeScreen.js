@@ -34,6 +34,7 @@ export const HomeScreen = () => {
                 console.error("Error adding document: ", e);
             }
             localStorage.setItem('userStatus', !authContext.get);
+            localStorage.setItem("uid",user.uid);
             navigate('/menu');
         }
     }
