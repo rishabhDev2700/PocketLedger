@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addDoc, collection, Timestamp, query, where, orderBy, getDocs, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, Timestamp, query, where, orderBy, getDocs } from "firebase/firestore";
 
 import { TransactionsLayout } from '../components/TransactionLayout';
 import { Transaction } from './../components/Transaction'
@@ -20,24 +20,21 @@ export const TransactionScreen = () => {
     const navigate = useNavigate();
 
 
-    const removeTransaction = async (key_id) => {
-        const id = key_id+""; 
-        await deleteDoc(collection(db, 'transactions',id));
-        setItem({});
-    }
+    
     useEffect(() => {
         if (!authContext.get) {
             navigate('/');
         }
         const document = collection(db, 'transactions');
-        const q = query(document, where('user', '==', userContext.user.uid), orderBy("date", 'asc'));
+        const uid = localStorage.getItem('uid');
+        const q = query(document, where('user', '==', uid), orderBy("date", 'asc'));
         const fetchDocs = async (setList) => {
             const docList = [];
             const result = await getDocs(q);
             result.forEach((doc) => {
                 const date = doc.data().date.toDate();
                 docList.push(<div>
-                    <Transaction key_id={doc.id} amount={doc.data().amount} for={doc.data().for} date={date.toDateString()} remove={removeTransaction} /><hr />
+                    <Transaction key={doc.id} key_id={doc.id} amount={doc.data().amount} for={doc.data().for} date={date.toDateString()} setState={setItem} /><hr />
                 </div>)
             });
             setList(docList);

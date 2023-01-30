@@ -1,10 +1,17 @@
 import styled from 'styled-components';
-import {AiFillDelete} from 'react-icons/ai'
-import React from 'react'
+import {AiFillDelete} from 'react-icons/ai';
+import React from 'react';
+import {doc,deleteDoc} from 'firebase/firestore';
+import {db} from './../FirebaseConfig';
 
 export const Transaction = (props) => {
+  const removeTransaction = async (id) => { 
+    await deleteDoc(doc(db, 'transactions',id));
+    props.setState({});
+    console.log("removed doc with ID: "+id);
+}
   return (
-    <Container key={props.key_id}>
+    <Container>
         <Wrapper>
         <Date>{props.date}</Date>
         <Details>
@@ -12,7 +19,7 @@ export const Transaction = (props) => {
             <For>{props.for}</For>
         </Details>
         </Wrapper>
-        <Button onClick={props.remove}><AiFillDelete/></Button>
+        <Button onClick={()=>removeTransaction(props.key_id)}><AiFillDelete/></Button>
     </Container>
   )
 }
