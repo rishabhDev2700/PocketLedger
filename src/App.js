@@ -12,7 +12,6 @@ function App() {
   const [userStatus, setUserStatus] = useState(false);
   const [user, setUser] = useState({});
   console.log('User status App:' + userStatus);
-  console.log('Current User App:' + user !== {} ? user.email:null)
   return (
     <AuthContext.Provider value={{ get: userStatus, set: setUserStatus }}>
       <UserContext.Provider value={{ user: user, setUser: setUser }}>
